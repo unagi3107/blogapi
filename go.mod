@@ -1,5 +1,7 @@
-module github.com/unagi3107/blogapi
+module github.com/ura3107/blogapi
 
 go 1.18
 
-require github.com/gorilla/mux v1.8.0 // indirect
+require github.com/gorilla/mux v1.8.0
+
+require github.com/go-sql-driver/mysql v1.6.0 // indirect

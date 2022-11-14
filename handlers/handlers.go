@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/unagi3107/blogapi/models"
+	"github.com/ura3107/blogapi/models"
 )
 
 func HelloHandler(w http.ResponseWriter, req *http.Request) {
