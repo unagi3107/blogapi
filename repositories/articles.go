@@ -13,7 +13,7 @@ const (
 
 func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 	const sqlStr = `
-		insert into articles (title, contents, user_name, nice, created_at) values (?, ?, ?, 0, now());
+		insert into articles (title, contents, username, nice, created_at) values (?, ?, ?, 0, now());
 	`
 
 	var newArticle models.Article
@@ -31,7 +31,7 @@ func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 
 func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 	const sqlStr = `
-		select article_id, title, contents, user_name, nice
+		select article_id, title, contents, username, nice
 		from articles
 		limit ? offset ?;
 	`

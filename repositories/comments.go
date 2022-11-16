@@ -13,7 +13,7 @@ func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 
 	var newComment models.Comment
 	newComment.ArticleID, newComment.Message = comment.ArticleID, comment.Message
-	result, err := db.Exec(sqlStr, comment.Message, comment.ArticleID)
+	result, err := db.Exec(sqlStr, comment.ArticleID, comment.Message)
 	if err != nil {
 		return models.Comment{}, err
 	}
