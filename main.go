@@ -7,9 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
-	"github.com/ura3107/blogapi/controllers"
-	"github.com/ura3107/blogapi/services"
+	"github.com/ura3107/blogapi/api"
 )
 
 var (
@@ -25,17 +23,8 @@ func main() {
 		log.Println("fail to connect DB")
 		return
 	}
-	ser := services.NewMyAppService(db)
-	con := controllers.NewMyAppController(ser)
 
-	r := mux.NewRouter()
-
-	r.HandleFunc("/hello", con.HelloHandler).Methods(http.MethodGet)
-	r.HandleFunc("/article", con.PostArticleHandler).Methods(http.MethodPost)
-	r.HandleFunc("/article/list", con.ArticleListHandler).Methods(http.MethodGet)
-	r.HandleFunc("/article/{id:[0-9]+}", con.ArticleDetailHandler).Methods(http.MethodGet)
-	r.HandleFunc("/article/nice", con.PostNiceHandler).Methods(http.MethodPost)
-	r.HandleFunc("/comment", con.PostCommentHandler).Methods(http.MethodPost)
+	r := api.NewRouter(db)
 
 	log.Println("server start at port 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
