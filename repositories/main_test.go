@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-
-	_ "github.com/go-sql-driver/mysql"
+	"testing"
 )
 
 var testDB *sql.DB
 
 var (
-	dbUser     = os.Getenv("DB_USER")
-	dbPassword = os.Getenv("DB_PASSWORD")
-	dbDatabase = os.Getenv("DB_NAME")
+	dbUser     = "docker"
+	dbPassword = "docker"
+	dbDatabase = "sampledb"
 	dbConn     = fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", dbUser, dbPassword, dbDatabase)
 )
 
@@ -25,29 +24,6 @@ func connectDB() error {
 		return err
 	}
 	return nil
-}
-
-func setup() error {
-	if err := connectDB(); err != nil {
-		return err
-	}
-
-	if err := cleanupDB(); err != nil {
-		fmt.Println("cleanup", err)
-		return err
-	}
-
-	if err := setupTestData(); err != nil {
-		fmt.Println("setup", err)
-		return err
-	}
-
-	return nil
-}
-
-func tearDown() {
-	cleanupDB()
-	defer testDB.Close()
 }
 
 func setupTestData() error {
@@ -66,4 +42,35 @@ func cleanupDB() error {
 		return err
 	}
 	return nil
+}
+
+func setup() error {
+	if err := connectDB(); err != nil {
+		return err
+	}
+	if err := cleanupDB(); err != nil {
+		fmt.Println("cleanup", err)
+		return err
+	}
+	if err := setupTestData(); err != nil {
+		fmt.Println("setup")
+		return err
+	}
+	return nil
+}
+
+func teardown() {
+	cleanupDB()
+	testDB.Close()
+}
+
+func TestMain(m *testing.M) {
+	err := setup()
+	if err != nil {
+		os.Exit(1)
+	}
+
+	m.Run()
+
+	teardown()
 }

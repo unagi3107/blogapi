@@ -1,7 +1,6 @@
 package repositories_test
 
 import (
-	"os"
 	"testing"
 
 	"github.com/ura3107/blogapi/models"
@@ -10,17 +9,6 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 )
-
-func TestMain(m *testing.M) {
-	err := setup()
-	if err != nil {
-		os.Exit(1)
-	}
-
-	m.Run()
-
-	tearDown()
-}
 
 func TestSelectArticleDetail(t *testing.T) {
 	tests := []struct {
